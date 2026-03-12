@@ -5,6 +5,7 @@
 library(vegan)
 library(ggplot2)
 head(data)
+library(ggpubr)
 #compiled averages of each timepoint
 setwd("~/Desktop/HBH_DOM/DOM_R2")
 
@@ -14,13 +15,13 @@ setwd("~/Desktop/HBH_DOM/DOM_R2")
 library(dplyr)
 data=read.csv("weighted_DOM_all_r_treat.csv",header=T)
 data = subset(data, data$type != "RT")
-data_sub = subset(data, type %in% c("AI", "avCox","DBE","TOC"))
+data_sub = subset(data, type %in% c("AI", "NOSC","DBE","TOC"))
 data_sub <- data_sub %>% select(-group)
 head(data_sub)
 
 #data for boxplot ai, avcox, dbe, and TOC
 data=read.csv("weighted_DOM_ave_r.csv",header=T)
-data_sub0 = subset(data, treat %in% c("AI", "avCox","DBE","TOC"))
+data_sub0 = subset(data, treat %in% c("AI", "NOSC","DBE","TOC"))
 data_sub0 <- na.omit(data_sub0)
 data2 = subset(data_sub0, data$Time!= 0)
 data2 <- na.omit(data2)
@@ -60,7 +61,7 @@ plot_fig1_a = ggplot(tt, aes(x = Time, y = value, colour = treatment, fill = tre
     legend.position = 'top',
     strip.text = element_blank()
   ) +
-  facet_grid(vars(factor(type, levels = c("AI", "avCox", "DBE", "TOC","MLB", "iSD"))), scales = 'free')
+  facet_grid(vars(factor(type, levels = c("AI", "NOSC", "DBE", "TOC","MLB", "iSD"))), scales = 'free')
 
 plot_fig1_a
 
@@ -73,7 +74,7 @@ plot_fig1_b = ggplot(bp, aes(x=treatment, y=value, fill=treatment)) +
                    axis.title.y = element_blank())+ # Remove y-axis title)+
   stat_compare_means(data, comparisons = list(c("Hypoxic", "Saturated")), 
                      label = "p.value", method = "t.test", paired=T, vjust = 1.2)+
-  facet_grid(vars(factor(type, levels=c("AI", "avCox", "DBE", "TOC","MLB", "iSD"))), scales = 'free')
+  facet_grid(vars(factor(type, levels=c("AI", "NOSC", "DBE", "TOC","MLB", "iSD"))), scales = 'free')
 
 plot_fig1_b
 
@@ -159,6 +160,8 @@ ggplot()+
   scale_color_manual(values=c("firebrick3", "skyblue3"))+
   scale_shape_manual(values=c(16,17,15,18,8))
 
+# maybe try DCA? try to parse out the variables that influence the treatment most
+
 
 #### PCA with everything #### not sure this is the best to visualize ####
 
@@ -239,6 +242,9 @@ p1<-ggplot(data, aes(x=DOM, y=OC, fill =DOM ,color= DOM)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#ADEDED", "#FA9A98", "#C2A5CF")) +
   scale_color_manual(values = c("#2166AC","#FE3298", "#8073AC")) +
@@ -257,6 +263,8 @@ p2<-ggplot(data, aes(x=DOM, y=HC, fill =DOM ,color= DOM)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#ADEDED", "#FA9A98", "#C2A5CF")) +
   scale_color_manual(values = c("#2166AC","#FE3298", "#8073AC")) +
@@ -274,6 +282,8 @@ p3<-ggplot(data, aes(x=DOM, y=NOSC, fill =DOM ,color= DOM)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#ADEDED", "#FA9A98", "#C2A5CF")) +
   scale_color_manual(values = c("#2166AC","#FE3298", "#8073AC")) +
@@ -291,6 +301,8 @@ p4<-ggplot(data, aes(x=DOM, y=DBE, fill =DOM ,color= DOM)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#ADEDED", "#FA9A98", "#C2A5CF")) +
   scale_color_manual(values = c("#2166AC","#FE3298", "#8073AC")) +
@@ -308,6 +320,8 @@ p5<-ggplot(data, aes(x=DOM, y=AI, fill =DOM ,color= DOM)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#ADEDED", "#FA9A98", "#C2A5CF")) +
   scale_color_manual(values = c("#2166AC","#FE3298", "#8073AC")) +
@@ -325,6 +339,8 @@ p7<-ggplot(data, aes(x=DOM, y=DBE_C, fill =DOM, color= DOM)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#ADEDED", "#FA9A98", "#C2A5CF")) +
   scale_color_manual(values = c("#2166AC","#FE3298", "#8073AC")) +
@@ -336,6 +352,7 @@ p7
 #combine them all better
 
 #just have to add legend by changing legend.position = 'right' for one and edit in illustrator
+library(cowplot)
 plot_grid(p5+ theme(legend.position = "none"),p4+ theme(legend.position = "none"),p7+ theme(legend.position = "none"),p2+ theme(legend.position = "none"),p3+ theme(legend.position = "none"),p1+ theme(legend.position = "none"), ncol = 3, align = "v")
 
 #7x5 landscape
@@ -351,7 +368,8 @@ df_vk1= df_vk1 %>%
 VK3 <- ggplot(df_vk1, aes(x = OC, y = HC, fill=`DOM`,color = `DOM`)) +
   geom_point(shape = 21, size = 3.5, stroke = 0.7) +
   theme_bw() +
-  theme(panel.grid = element_blank(),legend.position = c(0.85, 0.12)) +
+  theme(panel.grid = element_blank(),legend.position = c(0.85, 0.12), axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black")) +
   scale_fill_manual(values = c("#C2A5CF","#ADEDED","#FA9A98"),
                     labels = c( "RDOM (n=950)","LDOM (n=392)","ODDOM (n=214)")) +
   scale_color_manual(values = c("#8073AC","#2166AC","#FE3298"),
@@ -409,8 +427,10 @@ stackPlot <- ggplot(H_LDOM, aes(fill=Group_name, y=Percent, x=group)) +
   xlab("Day") + ylab("Percentage") + labs(fill = "Superclass") + 
   theme_minimal() +  
   ggtitle("LDOM") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),legend.position = "none") +   # setting the angle for the x label
-  #theme(axis.text.y = element_text(angle = 45, vjust = 0.5, hjust=1)) +   # setting the angle for the y label
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 14,        
+                                   color = "black"),legend.position = "none") +   # setting the angle for the x label
+  theme(axis.text.y = element_text(hjust=1, size = 14,        
+                                   color = "black")) +   # setting the angle for the y label
   theme(plot.title = element_text(hjust = 0.5))+
   scale_fill_manual(values = myColors) 
 stackPlot
@@ -423,7 +443,8 @@ stackPlot2 <- ggplot(H_ODDOM, aes(fill=Group_name, y=Percent, x=group)) +
   theme_minimal() + 
   labs(y=NULL) +
   ggtitle("ODDOM") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),legend.position = "none") +   # setting the angle for the x label
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 14,        
+                                   color = "black"),legend.position = "none") +   # setting the angle for the x label
   #theme(axis.text.y = element_text(angle = 45, vjust = 0.5, hjust=1)) +   # setting the angle for the y label
   theme(plot.title = element_text(hjust = 0.5), axis.title.y = element_blank(),  # Removes y-axis label
         axis.text.y = element_blank(),   # Removes y-axis text
@@ -439,7 +460,8 @@ stackPlot3 <- ggplot(H_RDOM, aes(fill=Group_name, y=Percent, x=group)) +
   theme_minimal() +  
   ggtitle("RDOM") +
   labs(y=NULL) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +   # setting the angle for the x label
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, size = 14,        
+                                   color = "black")) +   # setting the angle for the x label
   #theme(axis.text.y = element_text(angle = 45, vjust = 0.5, hjust=1)) +   # setting the angle for the y label
   theme(plot.title = element_text(hjust = 0.5), axis.title.y = element_blank(),  # Removes y-axis label
         axis.text.y = element_blank(),   # Removes y-axis text
@@ -494,6 +516,8 @@ stackPlot <- ggplot(K_sup, aes(fill=Superclass, y=Percent, x=Group)) +
         axis.text.x = element_blank(),
         axis.title.x = element_blank()
   ) +
+  theme(axis.text.y = element_text(hjust=1, size = 14,        
+                                      color = "black")) +
   theme(plot.title = element_text(hjust = 0.5))+
   scale_fill_manual(values = myColors) 
 stackPlot
@@ -589,7 +613,10 @@ p1<-ggplot(data, aes(x=group, y=OC, fill =group ,color= group)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        axis.text.x = element_blank()) +
+        axis.text.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),) +
   scale_fill_manual(values = c("#00bb00", "#FA9A98")) +
   scale_color_manual(values = c("#007200", "#FE3298")) +
   facet_wrap(~ "O/C", scales = "free_y")
@@ -607,6 +634,9 @@ p2<-ggplot(data, aes(x=group, y=HC, fill =group ,color= group)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#00bb00", "#FA9A98")) +
   scale_color_manual(values = c("#007200", "#FE3298")) +
@@ -624,6 +654,9 @@ p3<-ggplot(data, aes(x=group, y=NOSC, fill =group ,color= group)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#00bb00", "#FA9A98")) +
   scale_color_manual(values = c("#007200", "#FE3298")) +
@@ -641,6 +674,9 @@ p4<-ggplot(data, aes(x=group, y=DBE, fill =group ,color= group)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#00bb00", "#FA9A98")) +
   scale_color_manual(values = c("#007200", "#FE3298")) +
@@ -658,6 +694,9 @@ p7<-ggplot(data, aes(x=group, y=DBE_C, fill =group, color= group)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#00bb00", "#FA9A98")) +
   scale_color_manual(values = c("#007200", "#FE3298")) +
@@ -678,6 +717,9 @@ p5<-ggplot(data1, aes(x=group, y=AI, fill =group ,color= group)) +
   theme(panel.grid = element_blank(),
         axis.title.y = element_blank(),
         axis.title.x = element_blank(),
+        axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),
         axis.text.x = element_blank()) +
   scale_fill_manual(values = c("#00bb00", "#FA9A98", "#ADEDED", "#C2A5CF")) +
   scale_color_manual(values = c("#007200", "#FE3298", "#2166AC", "#8073AC")) +
@@ -697,7 +739,9 @@ plot_grid(p5+ theme(legend.position = "none"),p4+ theme(legend.position = "none"
 VK3 <- ggplot(data, aes(x = OC, y = HC, fill=group, color = group)) +
   geom_point(shape = 21, size = 3.5, stroke = 0.7) +
   theme_bw() +
-  theme(panel.grid = element_blank(),legend.position = c(0.85, 0.12)) +
+  theme(panel.grid = element_blank(),legend.position = c(0.8, 0.12), axis.text = element_text(size = 14, color = "black"),
+        legend.text = element_text(size = 14, color = "black"),
+        strip.text = element_text(size = 14, color = "black"),) +
   scale_fill_manual(values = c("#00bb00", "#FA9A98"),
                     labels = c("KEGG ODDOM (n=528)", "EXP ODDOM (n=214)")) +
   scale_color_manual(values = c("#007200", "#FE3298"),
@@ -931,24 +975,100 @@ ggplot(all, aes(x = Time, y = value, color = treatment)) +
   theme_minimal()
 #### end ####
 
-#### FT-ICR-MS meta-analysis ####
-# get methods from Qi
+#### alpha diversity of community ####
+setwd("~/Desktop/HBH_DOM/DOM_R2")
+df = read.csv("20260309-alphadiversity.csv")
+head(df)
 
+ggplot(df, aes(x = day, y = value, color = treatment)) +
+  geom_point() +
+  geom_smooth(se = TRUE) +
+  scale_color_manual(
+    values = c(
+      "Saturated" = "skyblue3",
+      "Hypoxic" = "firebrick3"
+    )
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),          # remove gridlines
+    axis.line = element_line(color = "black",linewidth =0.3), # add x and y axis lines
+    axis.ticks = element_line(color = "black",linewidth=0.3) # optional: show ticks
+  )
+
+install.packages("svglite")
+library(svglite)
+
+ggsave(filename = "alphadivfig.svg")
+
+#### end ####
+
+#### differentially abundant microbes ####
+library(ggplot2)
+library(dplyr)
+
+df = read.csv("bacterial_community_differential_abundance.csv")
+head(df)
+
+df %>%
+  arrange(log.fold) %>%
+  mutate(family = factor(family, levels = family)) %>%
+  ggplot(aes(x = family, y = log.fold, color = class)) +
+  geom_segment(aes(xend = family, y = 0, yend = log.fold),
+               color = "grey80", linewidth = 0.6) +
+  geom_point(size = 4) +
+  scale_color_manual(values=c("#1a476f","forestgreen","#c10534","black", "#938dd2", "#e37e00", "#6e8e84", "yellow"))+
+  geom_hline(yintercept = 0, linetype = "solid", color = "black",linewidth = 0.4) +
+  coord_flip() +
+  theme_bw() +
+  xlab("") +
+  ylab("Log Fold Change") +
+  theme(
+    panel.grid = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.6),
+    axis.text = element_text(color = "black"),
+    axis.title = element_text(color = "black"),
+    legend.position = "right"
+  )
+
+ggsave(filename = "logfoldchange_taxa.svg")
+
+#### end ####
+
+
+
+
+#### FT-ICR-MS meta-analysis ####
+# HBH FT data post-review edits
+
+setwd("~/Desktop/HBH_DOM/DOM_R2/")
+
+
+ft = read.csv("HBH_FT_BD_edits_ODDOM.csv",header=TRUE)
+
+head(data)
+
+#time to make that van-krev and hope for da best
 library(ggplot2)
 library(ggpubr)
 
 setwd("~/Desktop/HBH_DOM/DOM_R2")
 
-data=read.table("HBH_MF4.txt",header=T,row.names=1)
+data=read.table("HBH_FT_BD_vankrev.txt",header=T,row.names=1)
+data$type1 <- factor(data$type1, levels = c( "LDOM","RDOM", "ODDOM"))
+
 ggplot(data, aes(x = O_C, y = H_C, fill = type1, color = type1)) +
   geom_point(shape = 21, size = 2.5, stroke = 0.5, alpha = 0.8) +
   theme_bw() +
   theme(panel.grid = element_blank()) +
   scale_fill_manual(values = c( "#ADEDED","#C2A5CF", "#FA9A98")) +
-  scale_color_manual(values = c( "#2166AC","#8073AC", "#FE3298"))
+  scale_color_manual(values = c( "#2166AC","#8073AC", "#FE3298")) +
+  scale_size(range=c(3,10))+scale_x_continuous(limits = c(0, 0.8), breaks = seq(0.0, 1.2, by = 0.3)) +
+  scale_y_continuous(limits = c(0, 2), breaks = seq(0.0, 2, by = 0.5)) + stat_ellipse() +
+  guides(fill = guide_legend(title = NULL), color = guide_legend(title = NULL))
 
 
-data <- read.table("HBH_MF5.txt", header = TRUE, row.names = 1)
+data <- read.table("HBH_FT_BD_violin.txt", header = TRUE, row.names = 1)
 my_comparisons <- combn(unique(data$type1), 2, simplify = FALSE)
 ggplot(data, aes(x = type1, y = value, fill = type1, color = type1)) +
   geom_violin(trim = FALSE, alpha = 0.7, linewidth = 0.3) +
@@ -961,16 +1081,187 @@ ggplot(data, aes(x = type1, y = value, fill = type1, color = type1)) +
   scale_color_manual(values = c("#2166AC","#FE3298", "#8073AC")) +
   facet_wrap(~ type2, scales = "free_y")
 
-
-# old violins: 
-p1<-ggviolin(data, x="DOM", y="OC", fill ="DOM" ,ylab="Oxygen/Carbon", add = "boxplot", palette = c("#66FFFF", "#FE9898","#CAF3CD"), line.color="gray", line.size=0.1, 
-#facet.by = "type1" + 
-short.panel.labs = FALSE) +
-  #facet_grid(vars(type1)) +
-  theme(axis.text.x=element_text(angle=45, hjust=1, size=14), axis.text.y=element_text(size=14),axis.title.y = element_text(size = 14),legend.position = 'none')+stat_compare_means(comparisons=my_comparisons,aes(label=..p.signif..))+xlab(NULL)
-p1
 #### end ####
 
+#### VOC bar plots ####
+# can find methods for normalization and relative abundance calculations in "voc_meta_new_version_for_blank_removal.xlsx"
+# also annotations methods in there
+
+# load VOC data relative abundance...
+
+setwd("~/Desktop/VOC/")
+
+voc = read.csv("VOC_sig_3_25.csv")
+
+head(voc)
+
+data = subset(voc, select=c(M.1, Day, treatment, ave_percent_ab, std_dev, compound))
+data = na.omit(data)
+data
+
+#bar plot with one box per compound (variety description)
+# error bars as std dev
+data$M.1 <- factor(data$M.1, levels = unique(data$M.1))  
+facet_labels <- setNames(paste0(data$compound, " (day ", data$Day, ")"), data$M.1)
+
+
+day = ggplot(data, aes(fill=treatment, y=ave_percent_ab, x=treatment)) + 
+  geom_bar(position="dodge", stat="identity",width=0.7) +
+  scale_fill_manual(values=c("firebrick3", "skyblue3")) +
+  facet_wrap(~M.1, scales="free", labeller = labeller(M.1 = facet_labels)) +  
+  theme_minimal() +
+  theme(strip.text = element_text(size=12,face="bold")) +
+  geom_errorbar(aes(x=treatment, ymin=ave_percent_ab-std_dev, ymax=ave_percent_ab+std_dev), width=0.2, colour="black", alpha=0.9, size=.4)
+day
+
+
+#### PCA of rel ab VOCs ####
+library(ggplot2)
+
+library(vegan)
+
+library(cluster)
+
+library(tidyr)
+
+library(dplyr)
+library(viridis)
+library(hrbrthemes)
+setwd("~/Desktop/VOC/")
+
+nvoc = read.csv("PCA_rel_ab_VOC_3_25.csv")
+
+head(nvoc)
+
+
+#subset to have one identifier - sample_replicate
+nvoc1 = subset(nvoc,select=-c(Sample_name, Day, Treatment, Replicate))
+head(nvoc1)
+
+#make numeric
+nvoc2 <- mutate_all(nvoc1, function(x) as.numeric(as.character(x)))
+head(nvoc2)
+
+
+#bray-curtis distance 
+ndist = vegdist(nvoc2, method="bray",na.rm = TRUE)
+ndist
+
+#PCOA
+npcoa = cmdscale(ndist, k=2, eig=TRUE, add=TRUE)
+npcoa
+
+npositions = npcoa$points
+npositions
+colnames(npositions) = c("pcoa1", "pcoa2")
+
+#put in sample identifiers and treatment identifiers
+npositions = data.frame(npositions)
+npositions$sample = nvoc$Sample_name
+npositions$Treatment = nvoc$Treatment
+npositions$Day = nvoc$Day
+npositions
+
+#put in identifiers as left most column
+npositions1 = subset(npositions, select=c(sample, Treatment, Day ,pcoa1,pcoa2))
+npositions1
+
+npositions1$Day= factor(npositions1$Day, levels =c("0","2","14","42","96"))
+#figure out percent explained by each axis
+percent_explained = 100*npcoa$eig / sum(npcoa$eig)
+percent_explained[1:2]
+
+#PCA comparing treatments
+PCA_VOC = npositions1 %>%
+  as_tibble() %>%
+  ggplot(aes(x=pcoa1, y=pcoa2, colour=Day, shape=Treatment, group = Day)) +
+  geom_point(size=3) + 
+  stat_ellipse(linetype=2, size=0.5) +
+  theme_bw() +
+  scale_color_manual(values=c("#1B9E77", "skyblue2","#D95F02", "#7570B3", "#66A61E"))+
+  theme_bw() +labs(x="PCo 1 (44.52%)", y="PCo 2 (18.17%)") +
+  scale_shape_manual(values=c(16,17)) 
+PCA_VOC
+
+#### end ####
+
+#### PCA of rel ab microbes ####
+# needs to have relative abundances of each ASV 
+# see rel ab calculation for each ASV in meta_16s(AutoRecovered).xlsx
+
+setwd("~/Desktop/HBH")
+
+ndoc = read.csv("PCA_rel_ab_MC_3_25_fam.csv")
+#subset to have one identifier 
+ndoc1 = subset(ndoc,select=-c(Sample_name, Day, Treatment, Replicate))
+
+
+#make numeric
+ndoc2 <- mutate_all(ndoc1, function(x) as.numeric(as.character(x)))
+
+
+
+#bray-curtis distance 
+ndist = vegdist(ndoc2, method="bray",na.rm = TRUE)
+ndist
+
+#PCOA
+npcoa = cmdscale(ndist, k=2, eig=TRUE, add=TRUE)
+npcoa
+
+npositions = npcoa$points
+npositions
+colnames(npositions) = c("pcoa1", "pcoa2")
+
+#put in sample identifiers and treatment identifiers
+npositions = data.frame(npositions)
+npositions$sample = ndoc$Sample_name
+npositions$Treatment = ndoc$Treatment
+npositions$Day = ndoc$Day
+npositions
+
+#put in identifiers as left most column
+npositions1 = subset(npositions, select=c(sample, Treatment, Day ,pcoa1,pcoa2))
+npositions1
+
+npositions1$Day= factor(npositions1$Day, levels =c("0","2","14","42","70","96"))
+#figure out percent explained by each axis
+percent_explained = 100*npcoa$eig / sum(npcoa$eig)
+percent_explained[1:2]
+
+#PCA comparing treatments
+PCA_MC = npositions1 %>%
+  as_tibble() %>%
+  ggplot(aes(x=pcoa1, y=pcoa2, colour=Day, shape=Treatment, group = Day)) +
+  geom_point(size=4) + 
+  stat_ellipse(linetype=2, size=0.5) +
+  theme_bw() +
+  scale_color_manual(values=c("#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E"))+
+  theme_bw() +labs(x="PCo 1 (37.13%)", y="PCo 2 (19.43%)") +
+  scale_shape_manual(values=c(16,17)) 
+
+PCA_MC 
+
+# should add direction arrows for specific taxa groups (need PCA loadings for each taxa name)
+# to do
+
+
+#plot all PCAs next to eachother
+PCA_DOM
+PCA_VOC
+PCA_MC
+
+library(ggpubr)
+
+# Arrange the three PCA plots in a single figure
+combined_PCA <- ggarrange(PCA_DOM + theme(legend.position = "none"), PCA_VOC + theme(legend.position = "none"), PCA_MC,
+                          ncol = 3, nrow = 1,  # Arrange in one row
+                          labels = c("A", "B", "C"))  # Add labels if needed
+
+# Display the combined plot
+print(combined_PCA)
+
+#### end ####
 
 
 
