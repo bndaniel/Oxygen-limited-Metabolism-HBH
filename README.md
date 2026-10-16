@@ -1,6 +1,8 @@
 # Oxygen-limited-Metabolism-HBH
-Repository for all methods found in "Persistence of Oxygen Dependent Dissolved Organic Matter in Hypoxic Marine Environments"
 
+This repository and supporting files are available upon request.
 
-All supporting files can be found in figs share here: https://figshare.com/s/538d72ba854da370f53d
+To request access, please contact the repository maintainer: ben.daniels255@gmail.com
+
+Repository for all methods found in "Oxygen-dependent metabolism of dissolved organic matter in hypoxic marine environments"
 
