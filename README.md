@@ -1,4 +1,4 @@
-# Oxygen-limited-Metabolism-HBH
+# Oxygen-dependent-Metabolism-HBH
 
 This repository and supporting files are available upon request.
 
